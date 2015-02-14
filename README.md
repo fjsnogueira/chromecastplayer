@@ -13,6 +13,9 @@ This project is a first alpha approach to write a simple media player, which is 
 - If Chromecast is not supporting a media coded, the playlist won't jump to next entry
 - The Player native Swing UI was testet only on Linux Mint 17 with Mate (Gnome2-Fork). So if the player looks ugly on platforms like Windows, MacOSX and other Linux Distros, please give me a hint.
 
+##What's planned
+- Make stable
+
 ##Install and Usage
 ```bash
 git clone https://github.com/neocdtv/streamingservice
