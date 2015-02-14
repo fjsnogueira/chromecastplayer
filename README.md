@@ -16,7 +16,7 @@ java -jar target/ChromeCastPlayer-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 ##Thanks goes to:
-Vitaly Litvak, the creater of the project - [chromecast-java-api-v2](https://github.com/vitalidze/chromecast-java-api-v2) 
+- Vitaly Litvak, the creater of the project [chromecast-java-api-v2](https://github.com/vitalidze/chromecast-java-api-v2) 
 - Christian Stegmann, who motivated me to push this project to github ;)
 
 
