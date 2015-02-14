@@ -3,6 +3,15 @@ This project is a first alpha approach to write a simple media player, which is 
 
 ##What's working (most of the time)
 - Drag and drop local files into the playlist, also recursive - for playlist entry name the file name is used.
+- Select playlist entries and delete them with key DEL, CTRL+A also works
+- Play, Pause selected playlist entry
+- Volume Up/Down
+- Paste (CTRL+V) a url from clipboard
+- 
+##What's not working
+- Since autodiscovery was not working in my local network, the player is trying to connect to 'Chromecast' and resolve the domain name to a IP-Address (This is hardcoded by now)
+- If Chromecast is not supporting a media coded, the playlist won't jump to next entry
+- The Player UI, was testet only on Linux Mint 17 with Mate (Gnome2-Fork). So if the player looks ugly on platforms like Windows, MacOSX and other Linux Distros, please give a hint.
 
 ##Install and Usage
 ```bash
