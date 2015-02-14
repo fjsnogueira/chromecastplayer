@@ -7,6 +7,7 @@ This project is a first alpha approach to write a simple media player, which is 
 - Play, Pause selected playlist entry
 - Volume Up/Down
 - Paste (CTRL+V) a url from clipboard
+
 ##What's not working
 - Since autodiscovery was not working in my local network, the player is trying to connect to 'Chromecast' and resolve the domain name to a IP-Address (This is hardcoded by now)
 - If Chromecast is not supporting a media coded, the playlist won't jump to next entry
