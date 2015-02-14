@@ -11,7 +11,7 @@ This project is a first alpha approach to write a simple media player, which is 
 ##What's not working
 - Since autodiscovery was not working in my local network, the player is trying to connect to 'Chromecast' and resolve the domain name to a IP-Address (This is hardcoded by now)
 - If Chromecast is not supporting a media coded, the playlist won't jump to next entry
-- The Player UI, was testet only on Linux Mint 17 with Mate (Gnome2-Fork). So if the player looks ugly on platforms like Windows, MacOSX and other Linux Distros, please give a hint.
+- The Player native Swing UI was testet only on Linux Mint 17 with Mate (Gnome2-Fork). So if the player looks ugly on platforms like Windows, MacOSX and other Linux Distros, please give me a hint.
 
 ##Install and Usage
 ```bash
