@@ -24,7 +24,7 @@ mvn clean install
 git clone https://github.com/neocdtv/chromecastplayer
 cd chromecastplayer
 mvn clean install
-java -jar target/ChromeCastPlayer-1.0-SNAPSHOT-jar-with-dependencies.jar 
+java -jar target/ChromeCastPlayer-0.2-r-with-dependencies.jar
 ```
 
 ##Thanks goes to:
