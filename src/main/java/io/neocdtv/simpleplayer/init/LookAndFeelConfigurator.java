@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.neocdtv.chromecastplayer;
+package io.neocdtv.simpleplayer.init;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +29,7 @@ public class LookAndFeelConfigurator {
                     LOOK_AND_FEEL_CLASS_NAME_MACINTOSH);
 
     public static void configure() {
+        LOGGER.log(Level.INFO, "configuring look and feel");
         try {
             UIManager.setLookAndFeel(determineNativeLookAndFeel());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -45,7 +46,7 @@ public class LookAndFeelConfigurator {
                 break;
             }
         }
-        LOGGER.log(Level.INFO, "look and feel to be used: {0}", lookAndFeel);
+        LOGGER.log(Level.INFO, "configured look and feel: {0}", lookAndFeel);
         return lookAndFeel;
     }
 }

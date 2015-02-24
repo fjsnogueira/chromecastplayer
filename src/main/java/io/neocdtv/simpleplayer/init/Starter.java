@@ -3,49 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.neocdtv.chromecastplayer;
+package io.neocdtv.simpleplayer.init;
 
+import io.neocdtv.simpleplayer.ui.PlayerUI;
 import io.neocdtv.service.StreamingService;
+import io.neocdtv.simpleplayer.player.chromecast.ChromecastServiceDiscovery;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.GeneralSecurityException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
-import su.litvak.chromecast.api.v2.ChromeCast;
-import su.litvak.chromecast.api.v2.Status;
 
 /**
  *
  * @author xix
  */
-public class Launcher {
-    
-    private final static Logger LOGGER = Logger.getLogger(Launcher.class.getName());
+public class Starter {    
+    private final static Logger LOGGER = Logger.getLogger(Starter.class.getName());
 
-    private static final String CHROME_CAST_DEFAULT_APP_ID = "CC1AD845";
-    private static Player player;
-    private static ChromeCast chromeCast;
-    private static NextTrackAnalyser nextTrackAnalyser;
-    
     public static void main(String[] args) throws Exception {
+        ChromecastServiceDiscovery.start();
         configureLookAndFeel();
         configureAndStartStreamingService();
-        configureChromeCastAndStartDefaultPlayerApp();
-        startGui();
-        nextTrackAnalyser = new NextTrackAnalyser(chromeCast, player);
+        createAndShowGui();
     }
 
-    private static void startGui() throws InterruptedException, InvocationTargetException {
+    private static void createAndShowGui() throws InvocationTargetException, InterruptedException {
         javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 try {
-                    player = new Player(chromeCast);
+                    new PlayerUI();
                 } catch (IOException | GeneralSecurityException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
+
         });
     }
 
@@ -55,14 +49,5 @@ public class Launcher {
 
     private static void configureLookAndFeel() throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
         LookAndFeelConfigurator.configure();
-    }
-
-    private static void configureChromeCastAndStartDefaultPlayerApp() throws IOException, GeneralSecurityException {
-        chromeCast = new ChromeCast("Chromecast");
-        chromeCast.connect();
-        Status status = chromeCast.getStatus();
-        if (chromeCast.isAppAvailable(CHROME_CAST_DEFAULT_APP_ID) && !status.isAppRunning(CHROME_CAST_DEFAULT_APP_ID)) {
-            chromeCast.launchApp(CHROME_CAST_DEFAULT_APP_ID);
-        }
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.neocdtv.chromecastplayer;
+package io.neocdtv.simpleplayer.ui;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -17,31 +17,36 @@ import javax.swing.ListSelectionModel;
  *
  * @author xix
  */
-public class Playlist extends JList<ListEntry> {
+public class PlaylistUI extends JList<PlaylistEntry> {
 
-    private final static Logger LOGGER = Logger.getLogger(Playlist.class.getName());
+    private static PlaylistUI INSTANCE;
+    
+    public static PlaylistUI getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new PlaylistUI();
+        }
+        return INSTANCE;
+    }
+    
+    private final static Logger LOGGER = Logger.getLogger(PlaylistUI.class.getName());
 
     private int playingIndex = 0;
 
-    public Playlist() {
-        super(new DefaultListModel<ListEntry>());
+    private PlaylistUI() {
+        super(new DefaultListModel<PlaylistEntry>());
         setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         setDragEnabled(true);
-        setTransferHandler(new ListTransferHandler());
+        setTransferHandler(new PlaylistTransferHandler());
         setDropMode(DropMode.INSERT);
     }
 
     @Override
-    public DefaultListModel<ListEntry> getModel() {
-        return (DefaultListModel<ListEntry>) super.getModel();
+    public DefaultListModel<PlaylistEntry> getModel() {
+        return (DefaultListModel<PlaylistEntry>) super.getModel();
     }
 
     public void addElement(final String url) {
-        getModel().addElement(new ListEntry(url, url));
-    }
-
-    public void clear() {
-        setModel(new DefaultListModel<ListEntry>());
+        getModel().addElement(new PlaylistEntry(url, url));
     }
 
     public String getSelectedTrackUrl() {
@@ -52,10 +57,11 @@ public class Playlist extends JList<ListEntry> {
 
         LOGGER.log(Level.INFO, "selected index {0} ", selectedIndex);
         if (selectedIndex >= 0) {
-            selectedTrackUrl = getModel().get(selectedIndex).getFilePath();
+            selectedTrackUrl = getModel().get(selectedIndex).getPath();
             playingIndex = selectedIndex;
         }
         LOGGER.log(Level.INFO, "selected playlist track {0}", selectedTrackUrl);
+        ensureIndexIsVisible(selectedIndex);
         return selectedTrackUrl;
     }
 
@@ -72,9 +78,10 @@ public class Playlist extends JList<ListEntry> {
             }
             playingIndex = selectedIndex;
             setSelectedIndex(selectedIndex);
-            nextSelectedTrackUrl = getModel().get(selectedIndex).getFilePath();
+            nextSelectedTrackUrl = getModel().get(selectedIndex).getPath();
         }
         LOGGER.log(Level.INFO, "next playlist track {0}", nextSelectedTrackUrl);
+        ensureIndexIsVisible(selectedIndex);
         return nextSelectedTrackUrl;
     }
 
@@ -87,13 +94,14 @@ public class Playlist extends JList<ListEntry> {
                 playingIndex = 0;
             }
             setSelectedIndex(playingIndex);
-            nextTrackUrl = getModel().get(playingIndex).getFilePath();
+            nextTrackUrl = getModel().get(playingIndex).getPath();
         }
+        ensureIndexIsVisible(playingIndex);
         return nextTrackUrl;
     }
 
     void selectAll() {
-        final DefaultListModel<ListEntry> model = getModel();
+        final DefaultListModel<PlaylistEntry> model = getModel();
         for (int i = 0; i < model.getSize(); i++) {
             int[] indicies = new int[model.getSize()];
             indicies[i] = i;
@@ -102,9 +110,9 @@ public class Playlist extends JList<ListEntry> {
     }
 
     void removeSelected() {
-        final DefaultListModel<ListEntry> model = getModel();
-        final List<ListEntry> selectedValuesList = getSelectedValuesList();
-        for (ListEntry entry: selectedValuesList) {
+        final DefaultListModel<PlaylistEntry> model = getModel();
+        final List<PlaylistEntry> selectedValuesList = getSelectedValuesList();
+        for (PlaylistEntry entry: selectedValuesList) {
             model.removeElement(entry);
         }
     }

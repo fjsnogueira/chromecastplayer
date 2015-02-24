@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.neocdtv.chromecastplayer;
+package io.neocdtv.simpleplayer.player;
 
 /**
  *
  * @author xix
  */
-public enum PlayerState {
-    PLAYING,
-    PAUSING,
-    LAUNCHED;
+public class PlayerException extends Exception {
+
+    public PlayerException(Exception ex) {
+        super(ex);
+    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.neocdtv.chromecastplayer;
+package io.neocdtv.simpleplayer.ui;
 
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
@@ -39,6 +39,7 @@ package io.neocdtv.chromecastplayer;
 /*
  * ListTransferHandler.java is used by the DropDemo example.
  */
+import io.neocdtv.simpleplayer.init.LookAndFeelConfigurator;
 import javax.swing.*;
 import java.awt.datatransfer.*;
 import java.io.File;
@@ -49,7 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
-public class ListTransferHandler extends TransferHandler {
+public class PlaylistTransferHandler extends TransferHandler {
 
     private final static Logger LOGGER = Logger.getLogger(LookAndFeelConfigurator.class.getName());
 
@@ -79,8 +80,8 @@ public class ListTransferHandler extends TransferHandler {
         }
 
         JList list = (JList) info.getComponent();
-        DefaultListModel<ListEntry> listModel = (DefaultListModel) list.getModel();
-        JList.DropLocation dl = (JList.DropLocation) info.getDropLocation();
+        DefaultListModel<PlaylistEntry> listModel = (DefaultListModel) list.getModel();
+        JList.DropLocation dropLocation = (JList.DropLocation) info.getDropLocation();
 
         // Get the string that is being dropped.
         Transferable transferable = info.getTransferable();
@@ -92,7 +93,7 @@ public class ListTransferHandler extends TransferHandler {
                     final boolean recursive = true;
                     final String[] fileExtensionFilter = null;
                     final List<File> listFiles = Arrays.asList(FileUtils.convertFileCollectionToFileArray(FileUtils.listFiles(file, fileExtensionFilter, recursive)));
-                    for (File o: listFiles) {
+                    for (File o : listFiles) {
                         listModel.addElement(buildEntry(o));
                     }
                 } else {
@@ -100,20 +101,19 @@ public class ListTransferHandler extends TransferHandler {
                 }
             }
         } catch (UnsupportedFlavorException | IOException ex) {
-            Logger.getLogger(ListTransferHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return false;
         }
         return true;
     }
-    
-    private ListEntry buildEntry(final File file) {
-        final ListEntry entry = new ListEntry(file.getName(), file.getAbsolutePath());
+
+    private PlaylistEntry buildEntry(final File file) {
+        final PlaylistEntry entry = new PlaylistEntry(file.getName(), file.getAbsolutePath());
         return entry;
     }
 
     @Override
-    protected void exportDone(JComponent c, Transferable data, int action
-    ) {
+    protected void exportDone(JComponent c, Transferable data, int action) {
         cleanup(c, action == TransferHandler.MOVE);
     }
 
